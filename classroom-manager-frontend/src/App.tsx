@@ -2,23 +2,47 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
+
+
+const client = new ApolloClient({
+  uri: "http://127.0.0.1:4000/api/",
+  cache: new InMemoryCache()
+});
+
+const query = gql`
+ {
+  students {
+    name,
+    id
+  }
+ }
+`
+
+const ComponentTest = () => {
+  const { loading, error, data } = useQuery(query);
+
+  console.log(data)
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}, {error.graphQLErrors.toString()}, {error.extraInfo}, {error.stack}</p>;
+
+  return data.students.map((student: any) => (
+    <div key={student.id}>
+      <p>
+        {student.name}: {student.id}
+      </p>
+    </div>
+  ));
+}
+
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ApolloProvider client={client}>
+        <ComponentTest />
+      </ApolloProvider>
     </div>
   );
 }
