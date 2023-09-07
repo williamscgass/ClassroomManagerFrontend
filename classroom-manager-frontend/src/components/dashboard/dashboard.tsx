@@ -20,7 +20,9 @@ const Dashboard: React.FC = () => {
 
     return <div>
         <DashboardHeader currentPage={currentPage} setCurrentPage={setCurrentPage}/>
-        {body}
+        <div id="body">
+            {body}
+        </div>
     </div>
 }
 
