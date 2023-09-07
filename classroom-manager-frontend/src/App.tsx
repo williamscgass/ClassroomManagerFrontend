@@ -4,6 +4,7 @@ import './App.css';
 
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { AssignmentSubmissions, Assignments, Students } from './components/graphql/graphql';
+import Dashboard from './components/dashboard/dashboard';
 
 const client = new ApolloClient({
   uri: "http://127.0.0.1:4000/api/",
@@ -16,9 +17,7 @@ function App() {
   return (
     <div className="App">
       <ApolloProvider client={client}>
-        <AssignmentSubmissions />
-        <Students />
-        <Assignments />
+        <Dashboard />
       </ApolloProvider>
     </div>
   );
